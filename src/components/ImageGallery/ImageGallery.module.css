@@ -1,0 +1,17 @@
+.imageGalleryContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.imageGalleryItem {
+    margin: 8px;
+}
+
+.imageGalleryItem img {
+    max-width: 100%;
+}
+
+ul {
+    list-style-type: none;
+}
