@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import SearchBar from '../components/SearchBar/SearchBar.tsx';
-import ImageGallery from '../components/ImageGallery/ImageGallery.tsx';
-import Loader from '../components/Loader/Loader.tsx';
-import ErrorMessage from '../components/ErrorMessage/ErrorMessage.tsx';
-import LoadMoreBtn from '../components/LoadMoreBtn/LoadMoreBtn.tsx';
-import ImageModal from '../components/ImageModal/ImageModal.tsx';
+import { useState, useEffect } from 'react';
+import SearchBar from '../components/SearchBar/SearchBar';
+import ImageGallery from '../components/ImageGallery/ImageGallery';
+import Loader from '../components/Loader/Loader';
+import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
+import LoadMoreBtn from '../components/LoadMoreBtn/LoadMoreBtn';
+import ImageModal from '../components/ImageModal/ImageModal';
+import { fetchImages } from '../api.ts';
 import { Image } from '../App/App.types.tsx';
-
-interface UnsplashApiResponse {
-  results: Array<{
-    id: string;
-    urls: { regular: string; small: string };
-    alt_description: string | null;
-  }>;
-}
 
 const App: React.FC = () => {
   const [images, setImages] = useState<Image[]>([]);
@@ -24,13 +17,10 @@ const App: React.FC = () => {
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
-    const fetchImages = async () => {
+    const getImages = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `https://api.unsplash.com/search/photos?query=${query}&page=${page}&client_id=Tj-Ibog63A5CLWSYTiYkR2ZJsHj70wgWJUjcrbLwQw4`
-        );
-        const data: UnsplashApiResponse = await response.json();
+        const data = await fetchImages(query, page);
         const newImages = data.results.map((image) => ({
           ...image,
           views: 0,
@@ -45,7 +35,7 @@ const App: React.FC = () => {
     };
 
     if (query !== '') {
-      fetchImages();
+      getImages();
     }
   }, [query, page]);
 
