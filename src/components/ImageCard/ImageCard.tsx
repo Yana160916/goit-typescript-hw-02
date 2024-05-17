@@ -1,16 +1,18 @@
-import React, { FC } from 'react';
 
 interface ImageCardProps {
   imageUrl: string;
-  altDescription: string;
+  alt: string;
   onClick: () => void;
 }
 
-const ImageCard: FC<ImageCardProps> = ({ imageUrl, altDescription, onClick }) => {
+const ImageCard: React.FC<ImageCardProps> = ({ imageUrl, alt, onClick }) => {
   return (
-    <div onClick={onClick}>
-      <img src={imageUrl} alt={altDescription} />
-    </div>
+    <img
+      src={imageUrl}
+      alt={alt}
+      onClick={onClick}
+      style={{ cursor: 'pointer', maxWidth: '100%' }}
+    />
   );
 };
 

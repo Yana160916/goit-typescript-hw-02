@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import SearchBar from '../components/SearchBar/SearchBar';
-import ImageGallery from '../components/ImageGallery/ImageGallery';
-import Loader from '../components/Loader/Loader';
-import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
-import LoadMoreBtn from '../components/LoadMoreBtn/LoadMoreBtn';
-import ImageModal from '../components/ImageModal/ImageModal';
+import { useState, useEffect } from 'react';
+import SearchBar from '../components/SearchBar/SearchBar.tsx';
+import ImageGallery from '../components/ImageGallery/ImageGallery.tsx';
+import Loader from '../components/Loader/Loader.tsx';
+import ErrorMessage from '../components/ErrorMessage/ErrorMessage.tsx';
+import LoadMoreBtn from '../components/LoadMoreBtn/LoadMoreBtn.tsx';
+import ImageModal from '../components/ImageModal/ImageModal.tsx';
 
-interface Image {
+interface UnsplashImage {
   id: string;
   alt_description: string;
   urls: {
+    small: string;
     regular: string;
   };
-  views?: number; // Добавление поля views с возможностью отсутствия
-  description?: string; // Добавление поля description с возможностью отсутствия
 }
 
-interface ApiResponse {
-  results: Image[];
+interface Image extends UnsplashImage {
+  views: number;
+  description: string | null;
 }
 
 const App: React.FC = () => {
@@ -35,21 +35,14 @@ const App: React.FC = () => {
         const response = await fetch(
           `https://api.unsplash.com/search/photos?query=${query}&page=${page}&client_id=Tj-Ibog63A5CLWSYTiYkR2ZJsHj70wgWJUjcrbLwQw4`
         );
-        const data: ApiResponse = await response.json(); // Определение типа данных ApiResponse для ответа от API
+        const data = await response.json();
         setImages((prevImages) => {
-          if (page === 1) {
-            return data.results.map((image) => ({
-              ...image,
-              views: 0, // Добавление поля views
-              description: image.alt_description,
-            }));
-          } else {
-            return [...prevImages, ...data.results.map((image) => ({
-              ...image,
-              views: 0, // Добавление поля views
-              description: image.alt_description,
-            }))];
-          }
+          const newImages = data.results.map((image: UnsplashImage) => ({
+            ...image,
+            views: 0,
+            description: image.alt_description,
+          }));
+          return page === 1 ? newImages : [...prevImages, ...newImages];
         });
       } catch (error) {
         setError('Error fetching images. Please try again later.');
@@ -93,8 +86,8 @@ const App: React.FC = () => {
         <ImageModal
           isOpen={!!selectedImage}
           imageUrl={selectedImage}
-          views={(images.find((image) => image.urls.regular === selectedImage)?.views) || 0} // Использование условного оператора для получения значения views
-          description={(images.find((image) => image.urls.regular === selectedImage)?.description) || ''} // Использование условного оператора для получения значения description
+          views={(images.find((image) => image.urls.regular === selectedImage) || {}).views || 0}
+          description={(images.find((image) => image.urls.regular === selectedImage) || {}).description || ''}
           onRequestClose={closeModal}
         />
       )}
