@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import { useState, useEffect, FC } from 'react';
 import SearchBar from '../components/SearchBar/SearchBar.tsx';
 import ImageGallery from '../components/ImageGallery/ImageGallery.tsx';
 import Loader from '../components/Loader/Loader.tsx';
