@@ -10,10 +10,11 @@ interface Image {
   id: string;
   alt_description: string;
   urls: {
+    small: string;
     regular: string;
   };
-  views: number;
-  description: string;
+  views: number; 
+  description: string; 
 }
 
 interface FetchResponse {

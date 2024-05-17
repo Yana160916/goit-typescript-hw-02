@@ -9,6 +9,8 @@ interface Image {
     small: string;
     regular: string;
   };
+  views: number; 
+  description: string; 
 }
 
 interface ImageGalleryProps {
