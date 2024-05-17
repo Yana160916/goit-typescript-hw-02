@@ -5,12 +5,12 @@ import Loader from '../components/Loader/Loader.tsx';
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage.tsx';
 import LoadMoreBtn from '../components/LoadMoreBtn/LoadMoreBtn.tsx';
 import ImageModal from '../components/ImageModal/ImageModal.tsx';
-import { Image } from './App.types.tsx';
+import { Image } from '../App/App.types.tsx';
 
 interface UnsplashApiResponse {
   results: Array<{
     id: string;
-    urls: { regular: string };
+    urls: { regular: string; small: string };
     alt_description: string | null;
   }>;
 }

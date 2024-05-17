@@ -17,3 +17,4 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageUrl, alt, onClick }) => {
 };
 
 export default ImageCard;
+
