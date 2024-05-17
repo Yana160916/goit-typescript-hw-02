@@ -1,4 +1,6 @@
-import { Image } from '../../App/App.types.tsx';
+import styles from '../ImageGallery/ImageGallery.module.css';
+import ImageCard from '../ImageCard/ImageCard.tsx';
+import { Image } from '../../App/App.types.tsx'; 
 
 interface ImageGalleryProps {
   images: Image[];
@@ -7,16 +9,17 @@ interface ImageGalleryProps {
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images, onImageClick }) => {
   return (
-    <div>
+    <ul className={styles.imageGalleryContainer}>
       {images.map((image) => (
-        <img
-          key={image.id}
-          src={image.urls.regular}
-          alt={image.alt_description || 'Image'}
-          onClick={() => onImageClick(image.urls.regular)}
-        />
+        <li key={image.id} className={styles.imageGalleryItem}>
+          <ImageCard
+            imageUrl={image.urls.small}
+            alt={image.alt_description ?? ''} 
+            onClick={() => onImageClick(image.urls.regular)}
+          />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 
