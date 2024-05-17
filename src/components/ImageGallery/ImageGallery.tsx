@@ -1,30 +1,28 @@
-import  { FC } from 'react';
-import styles from './ImageGallery.module.css';
+import React from 'react';
+import styles from '../ImageGallery/ImageGallery.module.css';
 import ImageCard from '../ImageCard/ImageCard';
 
-interface Image {
+interface ImageData {
   id: string;
   alt_description: string;
   urls: {
-    small: string;
+    small?: string; // Поле small тепер необов'язкове
     regular: string;
   };
-  views: number; 
-  description: string; 
 }
 
 interface ImageGalleryProps {
-  images: Image[];
+  images: ImageData[];
   onImageClick: (url: string) => void;
 }
 
-const ImageGallery: FC<ImageGalleryProps> = ({ images, onImageClick }) => {
+const ImageGallery: React.FC<ImageGalleryProps> = ({ images, onImageClick }) => {
   return (
     <ul className={styles.imageGalleryContainer}>
       {images.map((image) => (
         <li key={image.id} className={styles.imageGalleryItem}>
           <ImageCard
-            imageUrl={image.urls.small}
+            imageUrl={image.urls.small || image.urls.regular} // Використовуємо small, якщо він є, в іншому випадку використовуємо regular
             altDescription={image.alt_description}
             onClick={() => onImageClick(image.urls.regular)}
           />
